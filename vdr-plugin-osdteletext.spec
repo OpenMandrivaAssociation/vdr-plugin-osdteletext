@@ -12,6 +12,7 @@ Group:		Video
 License:	GPL
 URL:		http://www.wiesweg-online.de/linux/
 Source:		http://www.wiesweg-online.de/linux/vdr/vdr-%plugin-%version.tar.bz2
+BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	vdr-devel >= 1.4.1-6
 Requires:	vdr-abi = %vdr_abi
 
