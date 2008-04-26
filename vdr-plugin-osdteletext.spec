@@ -2,7 +2,7 @@
 %define plugin	osdteletext
 %define name	vdr-plugin-%plugin
 %define version	0.5.1
-%define rel	16
+%define rel	17
 
 Summary:	VDR plugin: Displays teletext on the OSD
 Name:		%name
@@ -12,8 +12,10 @@ Group:		Video
 License:	GPL
 URL:		http://www.wiesweg-online.de/linux/
 Source:		http://www.wiesweg-online.de/linux/vdr/vdr-%plugin-%version.tar.bz2
+Patch0:		osdteletext-0.5.1-i18n-1.6.patch
+Patch1:		91_osdteletext-1.5.0.dpatch
 BuildRoot:	%{_tmppath}/%{name}-buildroot
-BuildRequires:	vdr-devel >= 1.4.1-6
+BuildRequires:	vdr-devel >= 1.6.0
 Requires:	vdr-abi = %vdr_abi
 
 %description
@@ -22,6 +24,9 @@ Both sound and video are played in the background.
 
 %prep
 %setup -q -n %plugin-%version
+%patch0 -p1
+%patch1 -p1
+%vdr_plugin_prep
 
 # fix default cache dir
 perl -pi -e 's|"/vtx"|"%{_vdr_plugin_cachedir}/%{plugin}"|' txtrecv.c
