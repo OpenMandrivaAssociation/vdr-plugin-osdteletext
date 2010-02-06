@@ -1,8 +1,8 @@
 
 %define plugin	osdteletext
 %define name	vdr-plugin-%plugin
-%define version	0.5.1
-%define rel	20
+%define version	0.8.3
+%define rel	1
 
 Summary:	VDR plugin: Displays teletext on the OSD
 Name:		%name
@@ -10,10 +10,8 @@ Version:	%version
 Release:	%mkrel %rel
 Group:		Video
 License:	GPL
-URL:		http://www.wiesweg-online.de/linux/
-Source:		http://www.wiesweg-online.de/linux/vdr/vdr-%plugin-%version.tar.bz2
-Patch0:		osdteletext-0.5.1-i18n-1.6.patch
-Patch1:		91_osdteletext-1.5.0.dpatch
+URL:		http://projects.vdr-developer.org/projects/show/plg-osdteletext
+Source:		vdr-%plugin-%version.tgz
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	vdr-devel >= 1.6.0
 Requires:	vdr-abi = %vdr_abi
@@ -24,18 +22,16 @@ Both sound and video are played in the background.
 
 %prep
 %setup -q -n %plugin-%version
-%patch0 -p1
-%patch1 -p1
 %vdr_plugin_prep
 
-# fix default cache dir
-perl -pi -e 's|"/vtx"|"%{_vdr_plugin_cachedir}/%{plugin}"|' txtrecv.c
+# check default cache dir
+grep "\"%{_vdr_plugin_cachedir}/vtx\"" txtrecv.c
 
 perl -pi -e 's|../../man|.|' Makefile
 
 %vdr_plugin_params_begin %{plugin}
 # Directory for the teletext page cache.
-# default: %{_vdr_plugin_cachedir}/%{plugin}
+# default: %{_vdr_plugin_cachedir}/vtx
 var=DIRECTORY
 param=--directory=DIRECTORY
 # Maximum cache size in MB.
@@ -57,7 +53,12 @@ param=--cache-system=CACHE_SYSTEM
 rm -rf %{buildroot}
 %vdr_plugin_install
 
-install -d -m755 %{buildroot}%{_vdr_plugin_cachedir}/%{plugin}
+install -d -m755 %{buildroot}%{_vdr_plugin_cachedir}/vtx
+
+%pre
+if [ -d /var/cache/vdr/osdteletext ] && ! [ -d %{_vdr_plugin_cachedir}/vtx ]; then
+	mv /var/cache/vdr/osdteletext %{_vdr_plugin_cachedir}/vtx || :
+fi
 
 %post
 %vdr_plugin_post %plugin
@@ -71,6 +72,6 @@ rm -rf %{buildroot}
 %files -f %plugin.vdr
 %defattr(-,root,root)
 %doc README* COPYING HISTORY
-%attr(-,vdr,vdr) %{_vdr_plugin_cachedir}/%{plugin}
+%attr(-,vdr,vdr) %{_vdr_plugin_cachedir}/vtx
 
 
