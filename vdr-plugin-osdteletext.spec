@@ -1,13 +1,9 @@
-
 %define plugin	osdteletext
-%define name	vdr-plugin-%plugin
-%define version	0.8.3
-%define rel	2
 
 Summary:	VDR plugin: Displays teletext on the OSD
-Name:		%name
-Version:	%version
-Release:	%rel
+Name:		vdr-plugin-%plugin
+Version:	0.8.3
+Release:	3
 Group:		Video
 License:	GPL
 URL:		http://projects.vdr-developer.org/projects/show/plg-osdteletext
@@ -57,14 +53,6 @@ install -d -m755 %{buildroot}%{vdr_plugin_cachedir}/vtx
 if [ -d /var/cache/vdr/osdteletext ] && ! [ -d %{vdr_plugin_cachedir}/vtx ]; then
 	mv /var/cache/vdr/osdteletext %{vdr_plugin_cachedir}/vtx || :
 fi
-
-%post
-%vdr_plugin_post %plugin
-
-%postun
-%vdr_plugin_postun %plugin
-
-%clean
 
 %files -f %plugin.vdr
 %defattr(-,root,root)
