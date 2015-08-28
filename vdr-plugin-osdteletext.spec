@@ -3,7 +3,7 @@
 Summary:	VDR plugin: Displays teletext on the OSD
 Name:		vdr-plugin-%plugin
 Version:	0.8.3
-Release:	4
+Release:	5
 Group:		Video
 License:	GPL
 URL:		http://projects.vdr-developer.org/projects/show/plg-osdteletext
