@@ -6,7 +6,7 @@ Version:	0.9.4
 Release:	1
 Group:		Video
 License:	GPLv2+
-URL:		http://projects.vdr-developer.org/projects/show/plg-osdteletext
+URL:		https://projects.vdr-developer.org/projects/show/plg-osdteletext
 Source:		vdr-%plugin-%{version}.tgz
 BuildRequires:	vdr-devel >= 1.6.0
 Requires:	vdr-abi = %vdr_abi
